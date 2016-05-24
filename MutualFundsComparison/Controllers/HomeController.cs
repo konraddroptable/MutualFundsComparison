@@ -12,8 +12,6 @@ namespace MutualFundsComparison.Controllers
     {
         MutualFundsEntities db = new MutualFundsEntities();
 
-
-        // GET: Home
         public ActionResult Index()
         {
             return View(db.FundFrame.ToList());
@@ -47,7 +45,6 @@ namespace MutualFundsComparison.Controllers
                     else
                     {
                         ModelState.AddModelError("File", "This file format is not supported");
-
                     }
                 }
                 else
@@ -58,7 +55,5 @@ namespace MutualFundsComparison.Controllers
 
             return View("~/Views/Home/Index.cshtml", db.FundFrame.Local.ToList());
         }
-
-
     }
 }
