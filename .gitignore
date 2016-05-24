@@ -6,3 +6,5 @@
 /MutualFundsComparison/bin
 /MutualFundsComparison/obj/Debug
 /.vs
+/MutualFundsComparison/App_Data/MutualFunds.mdf
+/MutualFundsComparison/App_Data/MutualFunds_log.ldf
