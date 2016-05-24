@@ -15,7 +15,7 @@ namespace MutualFundsComparison
     public partial class FundFrame
     {
         public int Id { get; set; }
-        public Nullable<System.DateTime> Date { get; set; }
-        public Nullable<decimal> Value { get; set; }
+        public string Date { get; set; }
+        public Nullable<double> Value { get; set; }
     }
 }
