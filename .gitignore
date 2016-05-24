@@ -3,3 +3,6 @@
 ################################################################################
 
 /packages
+/MutualFundsComparison/bin
+/MutualFundsComparison/obj/Debug
+/.vs
