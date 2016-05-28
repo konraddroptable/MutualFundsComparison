@@ -84,13 +84,13 @@
       <Private>True</Private>
     </Reference>
     <Reference Include="Microsoft.CSharp" />
-    <Reference Include="RDotNet, Version=1.5.5.0, Culture=neutral, PublicKeyToken=5f72f6e23c6920d4, processorArchitecture=MSIL">
-      <HintPath>..\packages\R.NET.1.5.5\lib\net40\RDotNet.dll</HintPath>
-      <Private>True</Private>
+    <Reference Include="RDotNet, Version=1.5.15.33833, Culture=neutral, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\..\..\..\Downloads\DeployR\RDotNet.dll</HintPath>
     </Reference>
-    <Reference Include="RDotNet.NativeLibrary, Version=1.0.0.0, Culture=neutral, PublicKeyToken=5f72f6e23c6920d4, processorArchitecture=MSIL">
-      <HintPath>..\packages\R.NET.1.5.5\lib\net40\RDotNet.NativeLibrary.dll</HintPath>
-      <Private>True</Private>
+    <Reference Include="RDotNet.NativeLibrary, Version=1.5.15.33832, Culture=neutral, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\..\..\..\Downloads\DeployR\RDotNet.NativeLibrary.dll</HintPath>
     </Reference>
     <Reference Include="System.Numerics" />
     <Reference Include="System.Runtime.Serialization" />
@@ -142,6 +142,8 @@
     </Content>
     <Content Include="Content\bootstrap.css" />
     <Content Include="Content\bootstrap.min.css" />
+    <Content Include="Content\jquery-ui.min.css" />
+    <Content Include="Content\morris.css" />
     <Content Include="Content\Site.css" />
     <Content Include="fonts\glyphicons-halflings-regular.svg" />
     <Content Include="Global.asax" />
@@ -150,17 +152,24 @@
     <Content Include="fonts\glyphicons-halflings-regular.woff" />
     <Content Include="fonts\glyphicons-halflings-regular.ttf" />
     <Content Include="fonts\glyphicons-halflings-regular.eot" />
+    <None Include="Properties\PublishProfiles\gcloud.pubxml" />
     <None Include="scripts\jquery-1.10.2.intellisense.js" />
     <Content Include="scripts\bootstrap.js" />
     <Content Include="scripts\bootstrap.min.js" />
+    <Content Include="scripts\datepicker.js" />
+    <Content Include="scripts\filterFrames.js" />
     <Content Include="scripts\jquery-1.10.2.js" />
     <Content Include="scripts\jquery-1.10.2.min.js" />
     <None Include="scripts\jquery.validate-vsdoc.js" />
+    <Content Include="scripts\jquery-ui.min.js" />
     <Content Include="scripts\jquery.validate.js" />
     <Content Include="scripts\jquery.validate.min.js" />
     <Content Include="scripts\jquery.validate.unobtrusive.js" />
     <Content Include="scripts\jquery.validate.unobtrusive.min.js" />
     <Content Include="scripts\modernizr-2.6.2.js" />
+    <Content Include="scripts\morris.min.js" />
+    <Content Include="scripts\raphael-min.js" />
+    <Content Include="scripts\renderChart.js" />
     <Content Include="TableModel.Context.tt">
       <Generator>TextTemplatingFileGenerator</Generator>
       <DependentUpon>TableModel.edmx</DependentUpon>
@@ -172,16 +181,10 @@
       <LastGenOutput>TableModel.cs</LastGenOutput>
     </Content>
     <Content Include="Web.config" />
-    <EntityDeploy Include="TableModel.edmx">
-      <Generator>EntityModelCodeGenerator</Generator>
-      <LastGenOutput>TableModel.Designer.cs</LastGenOutput>
-    </EntityDeploy>
-    <Content Include="TableModel.edmx.diagram">
-      <DependentUpon>TableModel.edmx</DependentUpon>
-    </Content>
   </ItemGroup>
   <ItemGroup>
     <Compile Include="App_Start\RouteConfig.cs" />
+    <Compile Include="Controllers\CompareController.cs" />
     <Compile Include="Controllers\HomeController.cs" />
     <Compile Include="FundFrame.cs">
       <DependentUpon>TableModel.tt</DependentUpon>
@@ -189,6 +192,9 @@
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
+    <Compile Include="Helpers\DataHelpers.cs" />
+    <Compile Include="Models\CompareModel.cs" />
+    <Compile Include="Models\HomeModel.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="R\RLangEngine.cs" />
     <Compile Include="TableModel.Context.cs">
@@ -217,6 +223,15 @@
     <Content Include="Views\_ViewStart.cshtml" />
     <Content Include="Views\Shared\_Layout.cshtml" />
     <Content Include="scripts\jquery-1.10.2.min.map" />
+    <EntityDeploy Include="TableModel.edmx">
+      <Generator>EntityModelCodeGenerator</Generator>
+      <LastGenOutput>TableModel.Designer.cs</LastGenOutput>
+    </EntityDeploy>
+    <Content Include="TableModel.edmx.diagram">
+      <DependentUpon>TableModel.edmx</DependentUpon>
+    </Content>
+    <Content Include="Views\Home\Frames.cshtml" />
+    <Content Include="Views\Compare\Index.cshtml" />
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>
@@ -224,9 +239,7 @@
       <DependentUpon>Web.config</DependentUpon>
     </None>
   </ItemGroup>
-  <ItemGroup>
-    <Folder Include="Models\" />
-  </ItemGroup>
+  <ItemGroup />
   <ItemGroup>
     <Service Include="{508349B6-6B84-4DF5-91F0-309BEEBAD82D}" />
   </ItemGroup>

@@ -1,53 +1,64 @@
-﻿@model IEnumerable<MutualFundsComparison.FundFrame>
-
+﻿@model MutualFundsComparison.Models.HomeModel
 @{
     ViewBag.Title = "Home";
 }
 
 
+
+
 @using (Html.BeginForm("Upload", "Home", FormMethod.Post, new { enctype = "multipart/form-data" }))
 {
-    <input type="file" name="file" style="margin-left:40px;cursor:pointer;" />
+    <input type="file" name="file" style="cursor:pointer;" />
     <br />
-    <input type="submit" style="margin-left:40px;cursor:pointer;" id="upload" value="Upload" />
+    <p>Select dates:</p>
+    
+    <p>
+        <div class="form-inline">
+            @Html.TextBoxFor(m => m.DateFrom, new { @class = "date-picker form-control", placeholder = "Date from" })
+            @Html.ValidationMessageFor(x => x.DateFrom)
 
+            @Html.TextBoxFor(m => m.DateTo, new { @class = "date-picker form-control", placeholder = "Date to" })
+            @Html.ValidationMessageFor(x => x.DateTo)
 
-
-    if (Model != null)
-    {
-        if (Model.Count() > 0)
+            @if (Model.DataFrame != null)
+            {
+                <button type="button" class="btn btn-success" onclick="filterFrames()">Filter</button>
+            }
+        </div>
+    </p>
+    <input type="submit" style="cursor:pointer;" class="btn btn-success" id="upload" value="Upload" />
+    
+    <div id="frame-content">
+        @if (Model.DataFrame != null)
         {
-            <p>Loaded @Model.Count() values</p>
-
-            <table class="table">
-                <tr>
-                    <th>
-                        @Html.DisplayNameFor(model => model.Date)
-                    </th>
-                    <th>
-                        @Html.DisplayNameFor(model => model.Value)
-                    </th>
-                    <th></th>
-                </tr>
-
-                @foreach (var item in Model)
-                {
-                    <tr>
-                        <td>
-                            @Html.DisplayFor(modelItem => item.Date)
-                        </td>
-                        <td>
-                            @Html.DisplayFor(modelItem => item.Value)
-                        </td>
-                    </tr>
-                }
-
-            </table>
+            Html.RenderPartial("Frames", Model);
         }
-    }
+    </div>
 }
 
 
+<script type="text/javascript">
+    var json = @(Html.Raw(Json.Encode(Model.DataFrame)));
+    var data = this.parseJson(json);
+    renderChart(data);
 
 
+    function filterFrames() {
+        $.ajax({
+            type: "POST",
+            url: '@Url.Content("~/Home/Filter")',
+            data: {
+                dateFrom: $("#DateFrom").val(),
+                dateTo: $("#DateTo").val()
+            },
+            success: function (result) {
+                $("#frame-content").html(result);
 
+                var parseDate = function(x) { return new Date(parseInt(x.substr(6))).toISOString().slice(0,10); };
+                var json = @(Html.Raw(Json.Encode(Model.DataFrame)));
+                var data = this.parseJson(json);
+                renderChart(data);
+            }
+        });
+    }
+</script>

@@ -8,3 +8,7 @@
 /.vs
 /MutualFundsComparison/App_Data/MutualFunds.mdf
 /MutualFundsComparison/App_Data/MutualFunds_log.ldf
+/MutualFundsComparison/obj/Release/Package
+/MutualFundsComparison/obj/Release
+/MutualFundsComparison/Properties/PublishProfiles
+/TestREngine

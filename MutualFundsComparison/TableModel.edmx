@@ -10,7 +10,7 @@
             <PropertyRef Name="Id" />
           </Key>
           <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
-          <Property Name="Date" Type="nvarchar" MaxLength="15" />
+          <Property Name="Date" Type="datetime" />
           <Property Name="Value" Type="float" />
         </EntityType>
         <EntityContainer Name="MutualFundsModelStoreContainer">
@@ -26,7 +26,7 @@
             <PropertyRef Name="Id" />
           </Key>
           <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
-          <Property Name="Date" Type="String" MaxLength="15" FixedLength="false" Unicode="true" />
+          <Property Name="Date" Type="DateTime" Precision="3" />
           <Property Name="Value" Type="Double" />
         </EntityType>
         <EntityContainer Name="MutualFundsEntities" annotation:LazyLoadingEnabled="true">

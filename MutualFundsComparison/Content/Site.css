@@ -16,3 +16,17 @@ textarea {
     max-width: 280px;
 }
 
+.field-validation-error {
+    color: #e80c4d;
+    font-weight: bold;
+}
+
+.field-validation-valid {
+    display: none;
+}
+
+input.input-validation-error
+{
+    background-color: #FFCACA;
+    border: 1px solid #e80c4d;
+}

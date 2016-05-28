@@ -11,11 +11,12 @@ namespace MutualFundsComparison
 {
     using System;
     using System.Collections.Generic;
+    using System.ComponentModel.DataAnnotations;
     
     public partial class FundFrame
     {
         public int Id { get; set; }
-        public string Date { get; set; }
+        public Nullable<System.DateTime> Date { get; set; }
         public Nullable<double> Value { get; set; }
     }
 }

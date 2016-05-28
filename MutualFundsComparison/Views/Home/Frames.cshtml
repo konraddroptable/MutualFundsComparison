@@ -1,0 +1,42 @@
+﻿@model MutualFundsComparison.Models.HomeModel
+
+<p>Loaded @Model.DataFrame.Count() values</p>
+<br />
+
+
+@*<img src="data:image;base64,@System.Convert.ToBase64String(Model.ByteArray)" />*@ 
+
+<div id="timeSeriesChart" style="height: 250px;"></div>
+
+<script type="text/javascript">
+    var json = @(Html.Raw(Json.Encode(Model.DataFrame)));
+    var data = this.parseJson(json);
+    renderChart(data);
+</script>
+
+
+<br /><br />
+
+<table class="table">
+    <tr>
+        <th>
+            Date
+        </th>
+        <th>
+            Value
+        </th>
+        <th></th>
+    </tr>
+
+    @foreach (var item in Model.DataFrame)
+    {
+        <tr>
+            <td>
+                @item.Date.Value.ToString("yyyy-MM-dd")
+            </td>
+            <td>
+                @item.Value
+            </td>
+        </tr>
+    }
+</table>

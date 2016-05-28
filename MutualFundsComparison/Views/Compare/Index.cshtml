@@ -1,0 +1,26 @@
+﻿@model MutualFundsComparison.Models.CompareModel
+
+@{
+    ViewBag.Title = "Compare";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<p>Select dates:</p>
+
+<p>
+    <div class="form-inline">
+        @Html.TextBoxFor(m => m.DateFrom, new { @class = "date-picker form-control", placeholder = "Date from" })
+        @Html.ValidationMessageFor(x => x.DateFrom)
+
+        @Html.TextBoxFor(m => m.DateTo, new { @class = "date-picker form-control", placeholder = "Date to" })
+        @Html.ValidationMessageFor(x => x.DateTo)
+    </div>
+
+
+
+    <button type="button" class="btn btn-success" onclick="calculateProfits()">Calculate</button>
+
+</p>
+
+
+

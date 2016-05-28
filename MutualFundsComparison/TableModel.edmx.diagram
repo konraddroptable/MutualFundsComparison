@@ -4,7 +4,7 @@
   <edmx:Designer xmlns="http://schemas.microsoft.com/ado/2009/11/edmx">
     <!-- Diagram content (shape and connector positions) -->
     <edmx:Diagrams>
-      <Diagram DiagramId="4169ba84a2a340ec96b6f46417116431" Name="Diagram1">
+      <Diagram DiagramId="a4dfe8bca77d473bb27af5334b76a122" Name="Diagram1">
         <EntityTypeShape EntityType="MutualFundsModel.FundFrame" Width="1.5" PointX="0.75" PointY="0.75" IsExpanded="true" />
       </Diagram>
     </edmx:Diagrams>

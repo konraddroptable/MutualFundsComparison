@@ -3,26 +3,54 @@ using System.Collections.Generic;
 using System.Data;
 using System.IO;
 using System.Linq;
+using System.Text.RegularExpressions;
 using System.Web;
 using System.Web.Mvc;
+using MutualFundsComparison.Helpers;
+using MutualFundsComparison.Models;
+using MutualFundsComparison.RLanguageEngine;
+using System.Globalization;
+
 
 namespace MutualFundsComparison.Controllers
 {
     public class HomeController : Controller
     {
-        MutualFundsEntities db = new MutualFundsEntities();
+        //string rHomePath = @"C:\Program Files\R\R-3.3.0\bin\i386";
 
         public ActionResult Index()
         {
-            return View(db.FundFrame.ToList());
+            HomeModel home = new HomeModel();
+
+            return View("~/Views/Home/Index.cshtml", home);
         }
 
-        [HttpPost]
-        public ActionResult Upload()
+        
+        public ActionResult Filter(DateTime? dateFrom, DateTime? dateTo)
         {
+            HomeModel home = new HomeModel();
+            home.DataFrame = FilterFundFrame(dateFrom, dateTo, (IEnumerable<FundFrame>)Session["FundFrame"]);
+            //home.ByteArray = RenderTimeSeriesChart(this.rHomePath, home.DataFrame);
+
+            return PartialView("~/Views/Home/Frames.cshtml", home);
+        }
+
+
+
+        [HttpPost]
+        public ActionResult Upload(DateTime? dateFrom, DateTime? dateTo)
+        {
+            HomeModel home = new HomeModel()
+            {
+                DateFrom = dateFrom,
+                DateTo = dateTo
+            };
+
             if (ModelState.IsValid)
             {
-                if(Request.Files.Count > 0)
+                MutualFundsEntities db = new MutualFundsEntities();
+
+                if (Request.Files.Count > 0)
                 {
                     var file = Request.Files[0];
                     if (file.FileName.EndsWith(".csv"))
@@ -37,10 +65,14 @@ namespace MutualFundsComparison.Controllers
                         while((line = sr.ReadLine()) != null)
                         {
                             var sp = line.Split(',');
-                            db.FundFrame.Add(new FundFrame { Date = sp[0], Value = Convert.ToDouble(sp[1], System.Globalization.NumberFormatInfo.InvariantInfo) });
+                            db.FundFrame.Local.Add(new FundFrame { Date = DataHelpers.ToDateTime(sp[0]), Value = DataHelpers.ToDouble(sp[1]) });                            
                         }
 
-                        return View("~/Views/Home/Index.cshtml", db.FundFrame.Local.ToList());
+                        Session["FundFrame"] = db.FundFrame.Local;
+                        home.DataFrame = FilterFundFrame(dateFrom, dateTo, db.FundFrame.Local);
+                        //home.ByteArray = RenderTimeSeriesChart(this.rHomePath, home.DataFrame);
+
+                        return View("~/Views/Home/Index.cshtml", home);
                     }
                     else
                     {
@@ -53,7 +85,50 @@ namespace MutualFundsComparison.Controllers
                 }
             }
 
-            return View("~/Views/Home/Index.cshtml", db.FundFrame.Local.ToList());
+            return View("~/Views/Home/Index.cshtml", home);
         }
+
+
+        //Not in use
+        //due to weak performance on server
+        //hint: write console app as R Server and execute R script through the server
+        //private byte[] RenderTimeSeriesChart(string rHomePath, IEnumerable<FundFrame> frm)
+        //{
+        //    RLangEngine engine = new RLangEngine(rHomePath);
+        //    byte[] arr = engine.RenderChartToByteArray(
+        //        frm.Select(x => Convert.ToString(x.Date)).ToArray(),
+        //        frm.Select(x => Convert.ToDouble(x.Value)).ToArray());
+
+        //    return arr;
+        //}
+
+        private IEnumerable<FundFrame> FilterFundFrame(DateTime? start, DateTime? end, IEnumerable<FundFrame> frm)
+        {
+            if (start != null && end != null)
+            {
+                return frm.Where(x => x.Date >= start && x.Date <= end).ToList();
+            }
+            else
+            {
+                if (start != null)
+                {
+                    return frm.Where(x => x.Date >= start).ToList();
+                }
+                else
+                {
+                    if (end != null)
+                    {
+                        return frm.Where(x => x.Date <= end).ToList();
+                    }
+                    else
+                    {
+                        return frm;
+                    }
+                }
+            }
+
+        }
+
+
     }
 }
