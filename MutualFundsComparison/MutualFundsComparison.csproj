@@ -232,6 +232,7 @@
     </Content>
     <Content Include="Views\Home\Frames.cshtml" />
     <Content Include="Views\Compare\Index.cshtml" />
+    <Content Include="Views\Compare\Chart.cshtml" />
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>

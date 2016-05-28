@@ -10,14 +10,14 @@
 {
     <input type="file" name="file" style="cursor:pointer;" />
     <br />
-    <p>Select dates:</p>
+    <p>Select dates</p>
     
     <p>
         <div class="form-inline">
-            @Html.TextBoxFor(m => m.DateFrom, new { @class = "date-picker form-control", placeholder = "Date from" })
+            @Html.TextBoxFor(m => m.DateFrom, new { @class = "date-picker form-control", placeholder = "date from" })
             @Html.ValidationMessageFor(x => x.DateFrom)
 
-            @Html.TextBoxFor(m => m.DateTo, new { @class = "date-picker form-control", placeholder = "Date to" })
+            @Html.TextBoxFor(m => m.DateTo, new { @class = "date-picker form-control", placeholder = "date to" })
             @Html.ValidationMessageFor(x => x.DateTo)
 
             @if (Model.DataFrame != null)
@@ -53,11 +53,6 @@
             },
             success: function (result) {
                 $("#frame-content").html(result);
-
-                var parseDate = function(x) { return new Date(parseInt(x.substr(6))).toISOString().slice(0,10); };
-                var json = @(Html.Raw(Json.Encode(Model.DataFrame)));
-                var data = this.parseJson(json);
-                renderChart(data);
             }
         });
     }

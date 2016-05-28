@@ -29,7 +29,7 @@ namespace MutualFundsComparison.Controllers
         public ActionResult Filter(DateTime? dateFrom, DateTime? dateTo)
         {
             HomeModel home = new HomeModel();
-            home.DataFrame = FilterFundFrame(dateFrom, dateTo, (IEnumerable<FundFrame>)Session["FundFrame"]);
+            home.DataFrame = DataHelpers.FilterFundFrame(dateFrom, dateTo, (IEnumerable<FundFrame>)Session["FundFrame"]);
             //home.ByteArray = RenderTimeSeriesChart(this.rHomePath, home.DataFrame);
 
             return PartialView("~/Views/Home/Frames.cshtml", home);
@@ -69,7 +69,7 @@ namespace MutualFundsComparison.Controllers
                         }
 
                         Session["FundFrame"] = db.FundFrame.Local;
-                        home.DataFrame = FilterFundFrame(dateFrom, dateTo, db.FundFrame.Local);
+                        home.DataFrame = DataHelpers.FilterFundFrame(dateFrom, dateTo, db.FundFrame.Local);
                         //home.ByteArray = RenderTimeSeriesChart(this.rHomePath, home.DataFrame);
 
                         return View("~/Views/Home/Index.cshtml", home);
@@ -101,34 +101,6 @@ namespace MutualFundsComparison.Controllers
 
         //    return arr;
         //}
-
-        private IEnumerable<FundFrame> FilterFundFrame(DateTime? start, DateTime? end, IEnumerable<FundFrame> frm)
-        {
-            if (start != null && end != null)
-            {
-                return frm.Where(x => x.Date >= start && x.Date <= end).ToList();
-            }
-            else
-            {
-                if (start != null)
-                {
-                    return frm.Where(x => x.Date >= start).ToList();
-                }
-                else
-                {
-                    if (end != null)
-                    {
-                        return frm.Where(x => x.Date <= end).ToList();
-                    }
-                    else
-                    {
-                        return frm;
-                    }
-                }
-            }
-
-        }
-
 
     }
 }

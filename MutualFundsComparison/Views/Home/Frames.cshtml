@@ -6,7 +6,7 @@
 
 @*<img src="data:image;base64,@System.Convert.ToBase64String(Model.ByteArray)" />*@ 
 
-<div id="timeSeriesChart" style="height: 250px;"></div>
+<div id="timeSeriesChart" style="height: 350px;"></div>
 
 <script type="text/javascript">
     var json = @(Html.Raw(Json.Encode(Model.DataFrame)));

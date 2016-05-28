@@ -1,0 +1,11 @@
+﻿@model MutualFundsComparison.Models.CompareModel
+
+
+
+<div id="comparisonChart" style="height: 350px;"></div>
+
+<script type="text/javascript">
+    var json = @(Html.Raw(Json.Encode(Model.TimeSeries)));
+    var data = this.parseJson(json);
+    comparisonChart(data);
+</script>

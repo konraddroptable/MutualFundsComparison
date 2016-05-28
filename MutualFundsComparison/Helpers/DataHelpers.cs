@@ -19,5 +19,32 @@ namespace MutualFundsComparison.Helpers
         {
             return Convert.ToDouble(s, System.Globalization.NumberFormatInfo.InvariantInfo);
         }
+
+        public static IEnumerable<FundFrame> FilterFundFrame(DateTime? start, DateTime? end, IEnumerable<FundFrame> frm)
+        {
+            if (start != null && end != null)
+            {
+                return frm.Where(x => x.Date >= start && x.Date <= end).ToList();
+            }
+            else
+            {
+                if (start != null)
+                {
+                    return frm.Where(x => x.Date >= start).ToList();
+                }
+                else
+                {
+                    if (end != null)
+                    {
+                        return frm.Where(x => x.Date <= end).ToList();
+                    }
+                    else
+                    {
+                        return frm;
+                    }
+                }
+            }
+
+        }
     }
 }

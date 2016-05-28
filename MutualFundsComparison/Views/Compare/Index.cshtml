@@ -5,22 +5,59 @@
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
 
-<p>Select dates:</p>
 
 <p>
+    <p>Select dates</p>
     <div class="form-inline">
-        @Html.TextBoxFor(m => m.DateFrom, new { @class = "date-picker form-control", placeholder = "Date from" })
+        @Html.TextBoxFor(m => m.DateFrom, new { @class = "date-picker form-control", placeholder = "date from" })
         @Html.ValidationMessageFor(x => x.DateFrom)
 
-        @Html.TextBoxFor(m => m.DateTo, new { @class = "date-picker form-control", placeholder = "Date to" })
+        @Html.TextBoxFor(m => m.DateTo, new { @class = "date-picker form-control", placeholder = "date to" })
         @Html.ValidationMessageFor(x => x.DateTo)
     </div>
+    <br />
 
+    <p>Investment details</p>
+    <div class="form-inline">
+        @Html.TextBoxFor(m => m.Amount, new { @class = "form-control", placeholder = "investment amount" })
+        @Html.ValidationMessageFor(x => x.Amount)
+
+        @Html.TextBoxFor(m => m.Rate, new { @class = "form-control", placeholder = "annual investment rate" })
+        @Html.ValidationMessageFor(x => x.Rate)
+    </div>
+    <br />
 
 
     <button type="button" class="btn btn-success" onclick="calculateProfits()">Calculate</button>
-
 </p>
 
 
 
+<div id="frame-content">
+    @if (Model.DataFrame != null)
+    {
+        Html.RenderPartial("Chart", Model);
+    }
+</div>
+
+
+
+
+
+<script type="text/javascript">
+    function calculateProfits() {
+        $.ajax({
+            type: "POST",
+            url: '@Url.Content("~/Compare/Investment")',
+            data: {
+                dateFrom: $("#DateFrom").val(),
+                dateTo: $("#DateTo").val(),
+                amount: $("#Amount").val(),
+                rate: $("#Rate").val()
+            },
+            success: function (result) {
+                $("#frame-content").html(result);
+            }
+        });
+    }
+</script>

@@ -28,5 +28,7 @@ namespace MutualFundsComparison
         public virtual DbSet<FundFrame> FundFrame { get; set; }
 
         public System.Data.Entity.DbSet<MutualFundsComparison.Models.HomeModel> HomeModels { get; set; }
+
+        public System.Data.Entity.DbSet<MutualFundsComparison.Models.CompareModel> CompareModels { get; set; }
     }
 }
