@@ -28,6 +28,12 @@ namespace MutualFundsComparison.Controllers
             Session["DateTo"] = dateTo;
 
             var frm = (IList<FundFrame>)DataHelpers.FilterFundFrame(dateFrom, dateTo, (IEnumerable<FundFrame>)Session["FundFrame"]);
+
+            if (frm == null)
+            {
+                throw new Exception("Empty array");
+            }
+
             DateTime? minDate = dateFrom.HasValue ? dateFrom : frm.Min(x => x.Date);
             DateTime? maxDate = dateTo.HasValue ? dateTo : frm.Max(x => x.Date);
 

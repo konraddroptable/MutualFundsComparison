@@ -20,11 +20,14 @@ namespace MutualFundsComparison.Controllers
 
         public ActionResult Index()
         {
+            DateTime? dateFrom = (DateTime?)Session["DateFrom"];
+            DateTime? dateTo = (DateTime?)Session["DateTo"];
 
             HomeModel home = new HomeModel()
             {
-                DateFrom = (DateTime?)Session["DateFrom"],
-                DateTo = (DateTime?)Session["DateTo"]
+                DataFrame = DataHelpers.FilterFundFrame(dateFrom, dateTo, (IEnumerable<FundFrame>)Session["FundFrame"]),
+                DateFrom = dateFrom,
+                DateTo = dateTo
             };
 
             return View("~/Views/Home/Index.cshtml", home);
@@ -47,23 +50,6 @@ namespace MutualFundsComparison.Controllers
 
             return PartialView("~/Views/Home/Frames.cshtml", home);
         }
-
-        public ActionResult BackToIndex()
-        {
-            DateTime? dateFrom = (DateTime?)Session["DateFrom"];
-            DateTime? dateTo = (DateTime?)Session["DateTo"];
-
-            HomeModel home = new HomeModel()
-            {
-                DataFrame = DataHelpers.FilterFundFrame(dateFrom, dateTo, (IEnumerable<FundFrame>)Session["FundFrame"]),
-                DateFrom = dateFrom,
-                DateTo = dateTo
-            };
-
-            return View("~/Views/Home/Index.cshtml", home);
-        }
-
-
 
         [HttpPost]
         public ActionResult Upload(DateTime? dateFrom, DateTime? dateTo)
