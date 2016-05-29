@@ -13,13 +13,20 @@ namespace MutualFundsComparison.Controllers
     {
         public ActionResult Index()
         {
-            CompareModel compare = new CompareModel();
+            CompareModel compare = new CompareModel()
+            {
+                DateFrom = (DateTime?)Session["DateFrom"],
+                DateTo = (DateTime?)Session["DateTo"]
+            };
 
             return View(compare);
         }
 
         public ActionResult Investment(DateTime? dateFrom, DateTime? dateTo, double amount, double rate)
         {
+            Session["DateFrom"] = dateFrom;
+            Session["DateTo"] = dateTo;
+
             var frm = (IList<FundFrame>)DataHelpers.FilterFundFrame(dateFrom, dateTo, (IEnumerable<FundFrame>)Session["FundFrame"]);
             DateTime? minDate = dateFrom.HasValue ? dateFrom : frm.Min(x => x.Date);
             DateTime? maxDate = dateTo.HasValue ? dateTo : frm.Max(x => x.Date);

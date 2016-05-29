@@ -14,10 +14,22 @@ namespace MutualFundsComparison.Models
         public DateTime? DateFrom { get; set; }
         public DateTime? DateTo { get; set; }
         public double? Amount { get; set; }
-        public double? Rate { get; set; }
+        private double? rate;
+        public double? Rate
+        {
+            get
+            {
+                return rate;
+            }
+            set
+            {
+                rate = value / 100;
+            }
+        }
         public IList<FundFrame> DataFrame { get; set; }
 
         public IList<TimeSeries> TimeSeries { get; set; }
+
     }
 
     public class TimeSeries

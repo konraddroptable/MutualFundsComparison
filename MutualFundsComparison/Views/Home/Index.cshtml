@@ -14,11 +14,25 @@
     
     <p>
         <div class="form-inline">
-            @Html.TextBoxFor(m => m.DateFrom, new { @class = "date-picker form-control", placeholder = "date from" })
-            @Html.ValidationMessageFor(x => x.DateFrom)
+            <div class="form-group">
+                <div class="input-group">
+                    <span class="input-group-addon">
+                        <span class="glyphicon glyphicon-calendar"></span>
+                    </span>
+                    @Html.TextBoxFor(m => m.DateFrom, new { @class = "date-picker form-control", placeholder = "date from", @Value = Model.DateFrom.HasValue ? Model.DateFrom.Value.ToString("yyyy-MM-dd") : "" })
+                    @Html.ValidationMessageFor(x => x.DateFrom)
+                </div>
+            </div>
 
-            @Html.TextBoxFor(m => m.DateTo, new { @class = "date-picker form-control", placeholder = "date to" })
-            @Html.ValidationMessageFor(x => x.DateTo)
+            <div class="form-group">
+                <div class="input-group">
+                    <span class="input-group-addon">
+                        <span class="glyphicon glyphicon-calendar"></span>
+                    </span>
+                    @Html.TextBoxFor(m => m.DateTo, new { @class = "date-picker form-control", placeholder = "date to", @Value = Model.DateTo.HasValue ? Model.DateTo.Value.ToString("yyyy-MM-dd") : "" })
+                    @Html.ValidationMessageFor(x => x.DateTo)
+                </div>
+            </div>
 
             @if (Model.DataFrame != null)
             {

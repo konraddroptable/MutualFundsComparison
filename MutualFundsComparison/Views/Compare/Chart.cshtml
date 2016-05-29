@@ -1,6 +1,31 @@
 ﻿@model MutualFundsComparison.Models.CompareModel
 
 
+<br /><br />
+<p id="comparisonTextResult"></p>
+<script type="text/javascript">
+    var formatDate = function(date){
+        return date.toISOString().slice(0,10);
+    }
+
+    var tsCnt = @Model.TimeSeries.Count();
+
+    if (tsCnt > 0){
+        var rate = @Model.Rate;
+        var amount = @Model.Amount;
+        var dateFrom = new Date(@Model.DateFrom.Value.Subtract(new DateTime(1970, 1, 1)).TotalMilliseconds);
+        var dateTo = new Date(@Model.DateTo.Value.Subtract(new DateTime(1970, 1, 1)).TotalMilliseconds);
+        var lastFund = @Model.TimeSeries[Model.TimeSeries.Count() - 1].ProfitFund.Value;
+        var lastInv = @Model.TimeSeries[Model.TimeSeries.Count() - 1].ProfitInv.Value;
+        var profitFund = Math.log(lastFund / amount) * 100;
+        var profitInv = Math.log(lastInv / amount) * 100;
+    }
+
+    var txt = "Investing $" + amount.toFixed(2) + " from " + formatDate(dateFrom) + " to " + formatDate(dateTo) + " in mutual funds gives you back $" + lastFund.toFixed(2) + " which is " + profitFund.toFixed(2) + "%.\nThe same investment in banking deposit with rate " + (rate * 100).toFixed(2) + "% gives you back $" + lastInv.toFixed(2) + " which is " + profitInv.toFixed(2) + "%.";
+    document.getElementById("comparisonTextResult").innerHTML = txt;
+</script>
+
+
 
 <div id="comparisonChart" style="height: 350px;"></div>
 

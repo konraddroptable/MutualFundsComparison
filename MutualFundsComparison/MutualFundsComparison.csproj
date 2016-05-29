@@ -140,6 +140,7 @@
     <Content Include="App_Data\MutualFunds_log.ldf">
       <DependentUpon>MutualFunds.mdf</DependentUpon>
     </Content>
+    <Content Include="Content\bootstrap-theme.min.css" />
     <Content Include="Content\bootstrap.css" />
     <Content Include="Content\bootstrap.min.css" />
     <Content Include="Content\jquery-ui.min.css" />
@@ -170,6 +171,7 @@
     <Content Include="scripts\morris.min.js" />
     <Content Include="scripts\raphael-min.js" />
     <Content Include="scripts\renderChart.js" />
+    <Content Include="scripts\validator.js" />
     <Content Include="TableModel.Context.tt">
       <Generator>TextTemplatingFileGenerator</Generator>
       <DependentUpon>TableModel.edmx</DependentUpon>

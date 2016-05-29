@@ -9,27 +9,55 @@
 <p>
     <p>Select dates</p>
     <div class="form-inline">
-        @Html.TextBoxFor(m => m.DateFrom, new { @class = "date-picker form-control", placeholder = "date from" })
-        @Html.ValidationMessageFor(x => x.DateFrom)
+        <div class="form-group">
+            <div class="input-group">
+                <span class="input-group-addon">
+                    <span class="glyphicon glyphicon-calendar"></span>
+                </span>
+                @Html.TextBoxFor(m => m.DateFrom, new { @class = "date-picker form-control", placeholder = "date from", @Value = Model.DateFrom.HasValue ? Model.DateFrom.Value.ToString("yyyy-MM-dd") : "" })
+                @Html.ValidationMessageFor(x => x.DateFrom)
+            </div>
+        </div>
 
-        @Html.TextBoxFor(m => m.DateTo, new { @class = "date-picker form-control", placeholder = "date to" })
-        @Html.ValidationMessageFor(x => x.DateTo)
+        <div class="form-group">
+            <div class="input-group">
+                <span class="input-group-addon">
+                    <span class="glyphicon glyphicon-calendar"></span>
+                </span>
+                @Html.TextBoxFor(m => m.DateTo, new { @class = "date-picker form-control", placeholder = "date to", @Value = Model.DateTo.HasValue ? Model.DateTo.Value.ToString("yyyy-MM-dd") : "" })
+                @Html.ValidationMessageFor(x => x.DateTo)
+                </div>
+        </div>
     </div>
     <br />
 
-    <p>Investment details</p>
-    <div class="form-inline">
-        @Html.TextBoxFor(m => m.Amount, new { @class = "form-control", placeholder = "investment amount" })
-        @Html.ValidationMessageFor(x => x.Amount)
+<form data-toggle="validator" role="form" id="formInvestmentDetails">
+        <p>Investment details</p>
+        <div class="form-inline">
+            <div class="form-group myRow">
+                <div class="input-group">
+                    <span class="input-group-addon">$</span>
+                    @Html.TextBoxFor(m => m.Amount, new { @class = "form-control", placeholder = "investment amount", required = "required" })
+                    <br />
+                    @Html.ValidationMessageFor(x => x.Amount, "type investment amount", new { @class = "help-inline" })
+                </div>
+            </div>
 
-        @Html.TextBoxFor(m => m.Rate, new { @class = "form-control", placeholder = "annual investment rate" })
-        @Html.ValidationMessageFor(x => x.Rate)
-    </div>
-    <br />
 
+            <div class="form-group myRow">
+                <div class="input-group">
+                    <span class="input-group-addon">%</span>
+                    @Html.TextBoxFor(m => m.Rate, new { @class = "form-control", placeholder = "annual investment rate", required = "required" })
+                    <br />
+                    @Html.ValidationMessageFor(x => x.Rate, "type investment rate", new { @class = "help-inline" })
+                </div>
+            </div>
+        </div>
+        <br />
 
-    <button type="button" class="btn btn-success" onclick="calculateProfits()">Calculate</button>
-</p>
+        <button type="button" class="btn btn-success" onclick="calculateProfits()">Calculate</button>
+</form>
+
 
 
 
@@ -42,10 +70,13 @@
 
 
 
-
-
 <script type="text/javascript">
     function calculateProfits() {
+        if ($("#Amount").val() == "" || $("#Rate").val() == "") {
+            alert("Fill investment details");
+            return "";
+        }
+
         $.ajax({
             type: "POST",
             url: '@Url.Content("~/Compare/Investment")',
@@ -57,7 +88,10 @@
             },
             success: function (result) {
                 $("#frame-content").html(result);
+            },
+            error: function (request, status, error) {
             }
         });
     }
 </script>
+
