@@ -46,5 +46,19 @@ namespace MutualFundsComparison.Helpers
             }
 
         }
+
+        public static double? ProfitInvInterval(DateTime? start, DateTime? end, double? amount, double? annualRate)
+        {
+            TimeSpan diff = end.Value - start.Value;
+            double daysDiff = diff.Days;
+            double? fv = amount * Math.Pow(1 + annualRate.Value / 365.25, daysDiff);
+
+            return fv;
+        }
+
+        public static double? ProfitFundInterval(double? valStart, double? valEnd, double? amount)
+        {
+            return amount + amount * Math.Log(valEnd.Value / valStart.Value);
+        }
     }
 }

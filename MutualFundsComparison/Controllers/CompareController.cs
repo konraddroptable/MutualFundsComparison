@@ -65,8 +65,8 @@ namespace MutualFundsComparison.Controllers
                 TimeSeries ts = new TimeSeries()
                 {
                     Date = nextDate,
-                    ProfitFund = ProfitFundInterval(prevVal, nextVal, i == 1 ? compare.Amount : ret[i - 2].ProfitFund),
-                    ProfitInv = ProfitInvInterval(prevDate, nextDate, compare.Amount, compare.Rate)
+                    ProfitFund = DataHelpers.ProfitFundInterval(prevVal, nextVal, i == 1 ? compare.Amount : ret[i - 2].ProfitFund),
+                    ProfitInv = DataHelpers.ProfitInvInterval(prevDate, nextDate, compare.Amount, compare.Rate)
                 };
 
                 ret.Add(ts);
@@ -75,18 +75,6 @@ namespace MutualFundsComparison.Controllers
             return ret;
         }
 
-        private double? ProfitInvInterval(DateTime? start, DateTime? end, double? amount, double? annualRate)
-        {
-            TimeSpan diff = end.Value - start.Value;
-            double daysDiff = diff.Days;
-            double? fv = amount * Math.Pow(1 + annualRate.Value / 365.25, daysDiff);
 
-            return fv;
-        }
-
-        private double? ProfitFundInterval(double? valStart, double? valEnd, double? amount)
-        {
-            return amount + amount * Math.Log(valEnd.Value / valStart.Value);
-        }
     }
 }
