@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
 using System.Text.RegularExpressions;
 using System.Web;
@@ -20,31 +21,35 @@ namespace MutualFundsComparison.Helpers
             return Convert.ToDouble(s, System.Globalization.NumberFormatInfo.InvariantInfo);
         }
 
-        public static IEnumerable<FundFrame> FilterFundFrame(DateTime? start, DateTime? end, IEnumerable<FundFrame> frm)
+        public static IEnumerable<FundFrame> UploadFile(HttpPostedFileBase file)
         {
-            if (start != null && end != null)
+            List<FundFrame> frm = new List<FundFrame>();
+            string line = string.Empty;
+            Stream stream = file.InputStream;
+            StreamReader sr = new StreamReader(stream);
+
+            line = sr.ReadLine();
+            var head = line.Split(',');
+
+            while ((line = sr.ReadLine()) != null)
             {
-                return frm.Where(x => x.Date >= start && x.Date <= end).ToList();
-            }
-            else
-            {
-                if (start != null)
-                {
-                    return frm.Where(x => x.Date >= start).ToList();
-                }
-                else
-                {
-                    if (end != null)
-                    {
-                        return frm.Where(x => x.Date <= end).ToList();
-                    }
-                    else
-                    {
-                        return frm;
-                    }
-                }
+                var sp = line.Split(',');
+                frm.Add(new FundFrame { Date = ToDateTime(sp[0]), Value = ToDouble(sp[1]) });
             }
 
+            return frm;
+        }
+
+        public static IEnumerable<FundFrame> FilterFundFrame(DateTime? start, DateTime? end, IEnumerable<FundFrame> frm)
+        {
+            if (frm != null)
+            {
+                return frm.Where(x => 
+                                    (start.HasValue ? x.Date >= start.Value : x.Date >= frm.Min(y => y.Date.Value)) &&
+                                    (end.HasValue ? x.Date <= end.Value : x.Date <= frm.Max(y => y.Date.Value)));
+            }
+
+            return frm;
         }
 
         public static double? ProfitInvInterval(DateTime? start, DateTime? end, double? amount, double? annualRate)
